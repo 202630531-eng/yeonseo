@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="ko" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>숙제상담소 🐹 | 힙하고 귀여운 갓생 멘탈 케어</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&family=Noto+Sans+KR:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans KR"', 'sans-serif'],
+            jua: ['"Jua"', 'sans-serif'],
+            gowun: ['"Gowun Dodum"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              rose: '#ff85a2',
+              lavender: '#e2d5f8',
+              peach: '#ffcfd2',
+              cream: '#fdfbf7',
+              mint: '#b9fbc0',
+              yellow: '#fde2e4',
+              butter: '#fff3b0',
+              darkBg: '#121016',
+            }
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-10px) rotate(2deg)' },
+            },
+            jiggle: {
+              '0%, 100%': { transform: 'scale(1) rotate(0deg)' },
+              '25%': { transform: 'scale(1.08) rotate(-4deg)' },
+              '75%': { transform: 'scale(1.08) rotate(4deg)' },
+            },
+            popIn: {
+              '0%': { transform: 'scale(0.8) opacity(0)' },
+              '100%': { transform: 'scale(1) opacity(1)' }
+            },
+            shimmer: {
+              '100%': { transform: 'translateX(100%)' }
+            }
+          },
+          animation: {
+            float: 'floatSlow 4s ease-in-out infinite',
+            jiggle: 'jiggle 0.4s ease-in-out',
+            pop: 'popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar & Interactive Polish */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 133, 162, 0.4); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 133, 162, 0.8); }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 10px 30px -5px rgba(255, 133, 162, 0.15);
+    }
+
+    .dark .glass-card {
+      background: rgba(26, 22, 37, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .neo-btn {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .neo-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+    }
+    .neo-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+
+    .bubble-tail::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 24px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 10px solid rgba(255, 255, 255, 0.95);
+    }
+    .dark .bubble-tail::after {
+      border-top-color: rgba(30, 27, 46, 0.95);
+    }
+
+    /* Ambient Scanline overlay for Y2K Vibe */
+    .y2k-grid {
+      background-size: 30px 30px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 133, 162, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 133, 162, 0.08) 1px, transparent 1px);
+    }
+  </style>
+</head>
+
+<body class="y2k-grid bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 dark:from-slate-950 dark:via-purple-950 dark:to-slate-900 text-slate-800 dark:text-slate-100 min-h-screen font-sans flex flex-col justify-between selection:bg-rose-300 selection:text-rose-900 transition-colors duration-300">
+
+  <header class="sticky top-0 z-40 px-4 py-3 glass-card shadow-sm border-b border-rose-200/50 dark:border-slate-800">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      
+      <!-- Logo & Interactive Mascot Counter -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('care'); playSound('pop');">
+        <div class="relative">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-200 via-rose-300 to-purple-300 p-0.5 shadow-md transform -rotate-3 hover:rotate-0 transition-transform">
+            <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center text-2xl">
+              🐹
+            </div>
+          </div>
+          <span class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-jua px-1.5 py-0.5 rounded-full animate-pulse shadow">
+            LIVE
+          </span>
+        </div>
+        <div>
+          <h1 class="font-jua text-2xl tracking-wide bg-gradient-to-r from-rose-500 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            숙제상담소
+          </h1>
+          <p class="text-xs text-rose-600/80 dark:text-rose-300 font-gowun flex items-center space-x-1">
+            <span>수석 상담사</span>
+            <span class="font-bold font-jua text-rose-600 dark:text-rose-400">'숙찌'</span>
+            <span class="text-[10px] bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-200 px-1.5 py-0.2 rounded-full font-sans">
+              🌻 <span id="seedCounter">0</span>개 모음
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Header Controls -->
+      <div class="flex items-center space-x-2">
+        <!-- Ambient Sound Generator Toggle -->
+        <button id="ambientBtn" onclick="toggleAmbientSound()" title="몰입 배경음 (Lofi Synth / Rain)"
+                class="neo-btn p-2.5 rounded-2xl bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 shadow-sm border border-rose-200/60 dark:border-slate-700 flex items-center space-x-1.5 text-xs font-jua">
+          <i data-lucide="headphones" class="w-4 h-4 text-rose-500"></i>
+          <span id="ambientLabel" class="hidden sm:inline">Lofi 소리</span>
+        </button>
+
+        <!-- Dark Mode Toggle -->
+        <button onclick="toggleDarkMode(); playSound('pop');" title="모드 전환"
+                class="neo-btn p-2.5 rounded-2xl bg-white/80 dark:bg-slate-800/80 text-amber-500 dark:text-amber-300 shadow-sm border border-rose-200/60 dark:border-slate-700">
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+        </button>
+
+        <!-- Gemini API Key Modal Trigger -->
+        <button onclick="openApiModal(); playSound('pop');" title="Gemini API Key 연동"
+                class="neo-btn p-2.5 rounded-2xl bg-gradient-to-r from-rose-400 to-purple-500 text-white shadow-md font-jua text-xs flex items-center space-x-1">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span class="hidden md:inline">API 키</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
+
+    <section class="glass-card rounded-3xl p-5 md:p-6 shadow-xl relative overflow-hidden border border-white/80 dark:border-slate-800">
+      <div class="absolute -right-8 -bottom-8 w-44 h-44 bg-rose-300/30 dark:bg-rose-900/20 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -left-8 -top-8 w-44 h-44 bg-amber-300/30 dark:bg-amber-900/20 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+        
+        <!-- Clickable Mascot Avatar -->
+        <div class="relative group cursor-pointer" onclick="feedSukzzi()">
+          <div id="sukzziAvatarBox" class="w-28 h-28 md:w-32 md:h-32 rounded-3xl bg-gradient-to-tr from-amber-200 via-rose-300 to-purple-300 p-1 shadow-lg transform transition-transform group-hover:scale-105 animate-float">
+            <div class="w-full h-full rounded-[22px] bg-white/95 dark:bg-slate-900/95 flex flex-col items-center justify-center relative overflow-hidden">
+              <span id="sukzziEmoji" class="text-6xl transition-transform duration-200">🐹</span>
+              <span id="feedHeart" class="absolute inset-0 bg-rose-500/90 text-white text-xs font-bold font-jua flex items-center justify-center opacity-0 transition-opacity duration-200 text-center px-2">
+                볼따구 터치! 🌻 +1
+              </span>
+            </div>
+          </div>
+          <div class="absolute -top-2 -right-2 bg-amber-400 text-slate-900 text-[10px] font-jua px-2 py-0.5 rounded-full shadow-md animate-bounce">
+            씨앗 주기!
+          </div>
+        </div>
+
+        <!-- Mascot Speech Bubble & Mood -->
+        <div class="flex-1 text-center md:text-left space-y-2.5">
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
+            <span class="font-jua text-xl md:text-2xl text-slate-800 dark:text-white">상담사 숙찌</span>
+            <span class="bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300 text-xs font-bold px-2.5 py-1 rounded-full border border-rose-300/50">
+              🎀 뼈때리는 팩폭전문
+            </span>
+            <span id="sukzziStatus" class="bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 text-xs font-semibold px-2.5 py-1 rounded-full">
+              기분: 해바라기씨 탐색 중 ✨
+            </span>
+          </div>
+
+          <!-- Speech Box -->
+          <div class="relative inline-block bg-white/90 dark:bg-slate-800/90 p-4 rounded-2xl shadow-sm border border-rose-200/80 dark:border-slate-700 text-sm md:text-base font-gowun text-slate-700 dark:text-slate-200 bubble-tail">
+            <p id="sukzziSpeech">"숙제? 3분만 서럽게 울고 시작하자. 어차피 안 사라지거든! 🌻"</p>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="flex flex-wrap justify-center md:justify-start gap-2 pt-1">
+            <button onclick="triggerMascotAction('seed'); playSound('pop');" class="neo-btn text-xs font-jua px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/60 dark:text-amber-200 text-amber-800 border border-amber-300/50">
+              🌻 해바라기씨 뇌물 주기
+            </button>
+            <button onclick="triggerMascotAction('fact'); playSound('pop');" class="neo-btn text-xs font-jua px-3 py-1.5 rounded-xl bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/60 dark:text-rose-200 text-rose-800 border border-rose-300/50">
+              🥊 매콤한 팩폭 한사발
+            </button>
+            <button onclick="triggerMascotAction('cheer'); playSound('pop');" class="neo-btn text-xs font-jua px-3 py-1.5 rounded-xl bg-purple-100 hover:bg-purple-200 dark:bg-purple-950/60 dark:text-purple-200 text-purple-800 border border-purple-300/50">
+              🧸 무조건 오냐오냐 위로
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <nav class="flex p-1.5 rounded-2xl glass-card shadow-inner space-x-2 border border-white/80 dark:border-slate-800">
+      <button id="tab-care" onclick="switchTab('care'); playSound('pop');"
+              class="flex-1 py-3 px-3 rounded-xl font-jua text-sm md:text-base transition-all flex items-center justify-center space-x-2 text-rose-600 bg-white dark:bg-slate-800 dark:text-rose-400 shadow-md">
+        <span>💬</span>
+        <span>뼈때리는 상담소</span>
+      </button>
+
+      <button id="tab-planner" onclick="switchTab('planner'); playSound('pop');"
+              class="flex-1 py-3 px-3 rounded-xl font-jua text-sm md:text-base transition-all flex items-center justify-center space-x-2 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white">
+        <span>📊</span>
+        <span>숙제 짬처리 계산기</span>
+      </button>
+
+      <button id="tab-timer" onclick="switchTab('timer'); playSound('pop');"
+              class="flex-1 py-3 px-3 rounded-xl font-jua text-sm md:text-base transition-all flex items-center justify-center space-x-2 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white">
+        <span>⏱️</span>
+        <span>갓생 포모도로 & 칭찬</span>
+      </button>
+    </nav>
+
+    <section id="content-care" class="space-y-4">
+      
+      <!-- Stress Level Gauge -->
+      <div class="glass-card rounded-2xl p-4 md:p-5 shadow-md border border-white/70 dark:border-slate-800">
+        <div class="flex items-center justify-between mb-2">
+          <label class="font-jua text-base md:text-lg flex items-center space-x-2">
+            <span>🔥 현재 숙제 스트레스 게이지:</span>
+            <span id="stressValue" class="text-rose-500 dark:text-rose-400 font-extrabold text-xl">50</span><span class="text-xs text-slate-400">%</span>
+          </label>
+          <span id="stressEmoji" class="text-2xl animate-bounce">🤯</span>
+        </div>
+        <input type="range" id="stressRange" min="0" max="100" value="50" oninput="updateStressDisplay(this.value)"
+               class="w-full h-3 bg-rose-100 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500">
+        <p id="stressDesc" class="mt-2 text-xs md:text-sm font-gowun text-slate-600 dark:text-slate-300 bg-rose-50/60 dark:bg-slate-800/50 p-2.5 rounded-xl border border-rose-100 dark:border-slate-700/50">
+          "뇌용량 과부하 직전! 숙찌에게 한탄할 준비 완료."
+        </p>
+      </div>
+
+      <!-- Chat UI Card -->
+      <div class="glass-card rounded-3xl p-4 md:p-6 shadow-lg border border-white/70 dark:border-slate-800 flex flex-col h-[520px]">
+        
+        <!-- Chat Header -->
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-rose-100 dark:border-slate-800">
+          <div class="flex items-center space-x-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="font-jua text-slate-700 dark:text-slate-200">숙찌 상담원 연결됨</span>
+          </div>
+          <button onclick="clearChat(); playSound('pop');" class="text-xs text-slate-400 hover:text-rose-500 flex items-center space-x-1 transition-colors">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <span>대화 리셋</span>
+          </button>
+        </div>
+
+        <!-- Chat Log Scroll Area -->
+        <div id="chatHistory" class="flex-1 overflow-y-auto space-y-3 pr-2 mb-3">
+          <!-- Initial Welcome Message -->
+          <div class="flex items-start space-x-2.5">
+            <div class="w-9 h-9 rounded-2xl bg-amber-200 dark:bg-amber-900 flex items-center justify-center text-lg flex-shrink-0 shadow-sm">
+              🐹
+            </div>
+            <div class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-2xl rounded-tl-none p-3.5 max-w-[85%] shadow-sm border border-slate-100 dark:border-slate-700 text-sm font-gowun space-y-1">
+              <p class="font-bold font-jua text-rose-500 text-xs">상담사 숙찌</p>
+              <p>어서와! 무슨 숙제 때문에 멘탈이 바삭바삭 과자가 됐니? 수학? 영어? 아니면 그냥 세상이 싫은 거니? 아무거나 말해봐! 🌻</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Sentiment Chips -->
+        <div class="py-2 overflow-x-auto flex space-x-2 no-scrollbar text-xs">
+          <button onclick="sendQuickPrompt('현기증 나요 숙제 너무 많음'); playSound('pop');" class="neo-btn whitespace-nowrap bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:text-rose-300 text-rose-700 px-3 py-1.5 rounded-xl border border-rose-200/60 dark:border-rose-900/50 font-jua">
+            😵 현기증 나요
+          </button>
+          <button onclick="sendQuickPrompt('숙제 그냥 찢어버릴까?'); playSound('pop');" class="neo-btn whitespace-nowrap bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:text-amber-300 text-amber-700 px-3 py-1.5 rounded-xl border border-amber-200/60 dark:border-amber-900/50 font-jua">
+            ✂️ 숙제 찢을까?
+          </button>
+          <button onclick="sendQuickPrompt('지구 멸망 기원 1일차입니다'); playSound('pop');" class="neo-btn whitespace-nowrap bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/40 dark:text-purple-300 text-purple-700 px-3 py-1.5 rounded-xl border border-purple-200/60 dark:border-purple-900/50 font-jua">
+            ☄️ 지구 멸망 기원 1일차
+          </button>
+          <button onclick="sendQuickPrompt('그냥 아무것도 안 하고 놀고 싶어요'); playSound('pop');" class="neo-btn whitespace-nowrap bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/40 dark:text-sky-300 text-sky-700 px-3 py-1.5 rounded-xl border border-sky-200/60 dark:border-sky-900/50 font-jua">
+            🛌 평생 눕방하고 싶어
+          </button>
+        </div>
+
+        <!-- Input Form -->
+        <form onsubmit="handleChatSubmit(event)" class="flex items-center space-x-2 pt-2 border-t border-slate-200/60 dark:border-slate-800">
+          <input type="text" id="userInput" placeholder="숙찌에게 서러운 마음을 다 털어놓아봐..." 
+                 class="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400 dark:text-white font-gowun">
+          <button type="submit" id="sendBtn" class="neo-btn bg-gradient-to-r from-rose-500 to-purple-600 text-white p-3 rounded-2xl shadow-md flex items-center justify-center">
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </button>
+        </form>
+
+      </div>
+    </section>
+
+    <section id="content-planner" class="hidden space-y-6">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        <!-- Input Form (Left) -->
+        <div class="md:col-span-5 glass-card rounded-3xl p-5 shadow-lg border border-white/70 dark:border-slate-800 space-y-4">
+          <h2 class="font-jua text-xl flex items-center space-x-2 text-rose-500">
+            <i data-lucide="calculator" class="w-5 h-5"></i>
+            <span>숙제 짬처리 계산기</span>
+          </h2>
+
+          <form onsubmit="handleAddHomework(event)" class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">숙제 이름</label>
+              <input type="text" id="hwTitle" required placeholder="예: 수학 익힘책 p.40-52"
+                     class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-rose-400 outline-none font-gowun">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">마감 기한</label>
+                <input type="date" id="hwDueDate" required
+                       class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-rose-400 outline-none font-sans">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">총 분량 (페이지/문제)</label>
+                <input type="number" id="hwAmount" min="1" required placeholder="예: 20"
+                       class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-rose-400 outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">체감 난이도</label>
+              <select id="hwDifficulty" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 text-xs focus:ring-2 focus:ring-rose-400 outline-none font-jua">
+                <option value="easy">🟢 순한맛 (5분컷 가능)</option>
+                <option value="medium" selected>🟡 보통맛 (머리 좀 써야 함)</option>
+                <option value="hard">🔴 매운맛 (울면서 풀어야 함)</option>
+                <option value="hell">☠️ 지구멸망맛 (살려주세요)</option>
+              </select>
+            </div>
+
+            <!-- Optional Image Upload Dropzone -->
+            <div>
+              <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">숙제 인증샷/문제 스캔 (선택)</label>
+              <div id="dropzone" onclick="document.getElementById('hwImage').click()"
+                   class="border-2 border-dashed border-rose-200 dark:border-slate-700 rounded-2xl p-3.5 text-center cursor-pointer hover:bg-rose-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                <i data-lucide="camera" class="w-5 h-5 text-rose-400 mx-auto mb-1"></i>
+                <p class="text-xs text-slate-500 font-gowun">사진 파일 클릭/드롭</p>
+                <input type="file" id="hwImage" accept="image/*" class="hidden" onchange="previewImage(this)">
+              </div>
+              <div id="imagePreviewContainer" class="hidden mt-2 relative">
+                <img id="imagePreview" class="w-full h-24 object-cover rounded-xl border border-slate-200 dark:border-slate-700" src="" alt="숙제 스캔">
+                <button type="button" onclick="removeImage(); playSound('pop');" class="absolute top-1 right-1 bg-rose-500 text-white rounded-full p-1 shadow">
+                  <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" onclick="playSound('pop')" class="w-full neo-btn py-3 bg-gradient-to-r from-rose-500 via-purple-500 to-indigo-600 text-white font-jua rounded-2xl shadow-md text-base flex items-center justify-center space-x-2">
+              <span>✂️ 과자 조각처럼 쪼개기!</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Split Output List (Right) -->
+        <div class="md:col-span-7 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="font-jua text-xl flex items-center space-x-2">
+              <span>📦 쪼개진 갓생 스낵 퀘스트</span>
+              <span id="hwCountBadge" class="bg-rose-100 text-rose-600 dark:bg-rose-950 dark:text-rose-300 text-xs px-2.5 py-0.5 rounded-full font-bold">0개</span>
+            </h2>
+          </div>
+
+          <div id="homeworkList" class="space-y-3 min-h-[320px]">
+            <!-- Dynamic Content -->
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section id="content-timer" class="hidden space-y-6">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        <!-- Pomodoro Timer Ring -->
+        <div class="md:col-span-6 glass-card rounded-3xl p-6 shadow-lg border border-white/70 dark:border-slate-800 flex flex-col items-center justify-center text-center space-y-4">
+          
+          <div class="flex items-center space-x-2 bg-rose-50 dark:bg-slate-800 px-3.5 py-1 rounded-full border border-rose-200 dark:border-slate-700">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+            <span id="timerModeText" class="font-jua text-xs text-rose-600 dark:text-rose-300">🔥 25분 집중 몰입 모드</span>
+          </div>
+
+          <!-- Circular SVG Progress -->
+          <div class="relative w-56 h-56 flex items-center justify-center">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="42" stroke-width="8" class="stroke-rose-100 dark:stroke-slate-800 fill-none"/>
+              <circle id="timerProgressRing" cx="50" cy="50" r="42" stroke-width="8" 
+                      stroke-dasharray="263.89" stroke-dashoffset="0" stroke-linecap="round"
+                      class="stroke-rose-500 fill-none transition-all duration-1000"/>
+            </svg>
+            <div class="absolute flex flex-col items-center">
+              <span id="timeDisplay" class="font-jua text-4xl md:text-5xl tracking-wider text-slate-800 dark:text-white">25:00</span>
+              <span id="timerQuote" class="text-[11px] font-gowun text-slate-500 dark:text-slate-400 mt-1 max-w-[140px]">
+                "세계 최고 인재 집중 가동 중 🐹"
+              </span>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="flex items-center space-x-3 pt-2">
+            <button onclick="toggleTimer(); playSound('pop');" id="timerStartBtn"
+                    class="neo-btn bg-rose-500 hover:bg-rose-600 text-white font-jua px-6 py-2.5 rounded-2xl shadow-md text-base flex items-center space-x-1.5">
+              <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+              <span id="timerStartText">시작하기</span>
+            </button>
+            <button onclick="resetTimer(); playSound('pop');"
+                    class="neo-btn bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-jua px-4 py-2.5 rounded-2xl text-sm">
+              리셋
+            </button>
+            <button onclick="switchTimerMode(); playSound('pop');"
+                    class="neo-btn bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-jua px-4 py-2.5 rounded-2xl text-sm border border-purple-200/50">
+              모드 변경
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Todo List & Instant Compliment Generator -->
+        <div class="md:col-span-6 space-y-4">
+          
+          <!-- Praise Vending Machine -->
+          <div class="glass-card rounded-3xl p-4 shadow-md border border-amber-200/70 dark:border-amber-900/40 bg-gradient-to-r from-amber-50/60 to-rose-50/60 dark:from-slate-900 dark:to-slate-900 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <span class="text-3xl animate-bounce">🎰</span>
+              <div>
+                <h3 class="font-jua text-sm text-slate-800 dark:text-white">자존감 뿜뿜 칭찬 자판기</h3>
+                <p class="text-[11px] font-gowun text-slate-500">클릭하면 숙찌가 명품 칭찬 카드를 뽑아줍니다!</p>
+              </div>
+            </div>
+            <button onclick="dispenseCompliment()" class="neo-btn px-3.5 py-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-jua text-xs rounded-xl shadow">
+              칭찬 뽑기 ✨
+            </button>
+          </div>
+
+          <!-- Todo List -->
+          <div class="glass-card rounded-3xl p-5 shadow-lg border border-white/70 dark:border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <h2 class="font-jua text-lg flex items-center space-x-2">
+                <span>🎯 오늘의 갓생 퀘스트</span>
+              </h2>
+              <span id="completedCount" class="text-xs font-bold text-emerald-500 font-gowun">0 / 0 완료</span>
+            </div>
+
+            <!-- Custom Todo Add Form -->
+            <form onsubmit="handleAddTodo(event)" class="flex items-center space-x-2">
+              <input type="text" id="todoInput" placeholder="직접 퀘스트 추가하기..." required
+                     class="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs focus:ring-2 focus:ring-rose-400 outline-none font-gowun">
+              <button type="submit" onclick="playSound('pop')" class="neo-btn bg-slate-800 dark:bg-slate-700 text-white font-jua text-xs px-3.5 py-2 rounded-xl">
+                추가
+              </button>
+            </form>
+
+            <div id="todoList" class="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+              <!-- Rendered Todos -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="py-6 px-4 text-center text-xs font-gowun text-slate-500 dark:text-slate-400 border-t border-rose-100 dark:border-slate-800/80 mt-8">
+    <p class="flex items-center justify-center space-x-1">
+      <span>Made with 💖 for all stressed students by</span>
+      <span class="font-jua text-rose-500">포근이 & 숙찌</span>
+    </p>
+    <p class="mt-1 text-[11px] opacity-75">"숙제는 해바라기씨처럼 조각내서 오독오독 먹어치우자!"</p>
+  </footer>
+
+  <!-- GEMINI API MODAL -->
+  <div id="apiModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="glass-card bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 shadow-2xl border border-rose-200 dark:border-slate-700 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-jua text-lg text-rose-500 flex items-center space-x-2">
+          <i data-lucide="key" class="w-5 h-5"></i>
+          <span>Gemini API Key 연동</span>
+        </h3>
+        <button onclick="closeApiModal(); playSound('pop');" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p class="text-xs font-gowun text-slate-600 dark:text-slate-300 leading-relaxed">
+        Google Gemini API Key를 저장하면 숙찌가 더 현란하고 차원 높은 팩폭/위로를 건넸찌! (미입력 시에도 똑똑한 로컬 햄스터 엔진이 실행됩니다 🐹)
+      </p>
+
+      <div>
+        <input type="password" id="apiKeyInput" placeholder="AIzaSy..." 
+               class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs focus:ring-2 focus:ring-rose-400 outline-none">
+      </div>
+
+      <div class="flex items-center justify-end space-x-2 pt-2">
+        <button onclick="closeApiModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+          취소
+        </button>
+        <button onclick="saveApiKey()" class="neo-btn px-4 py-2 bg-rose-500 text-white font-jua text-xs rounded-xl shadow">
+          저장
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPLIMENT POPUP MODAL -->
+  <div id="complimentModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="glass-card bg-white dark:bg-slate-900 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl space-y-4 transform transition-all animate-pop">
+      <span class="text-5xl inline-block animate-bounce">🎁</span>
+      <h3 class="font-jua text-xl text-amber-500">숙찌의 프리미엄 칭찬 보증서</h3>
+      <p id="complimentText" class="font-gowun text-base text-slate-700 dark:text-slate-200 bg-amber-50 dark:bg-slate-800 p-4 rounded-2xl border border-amber-200 dark:border-slate-700">
+        "넌 이미 존재 자체로 최고야!"
+      </p>
+      <button onclick="closeComplimentModal(); playSound('pop');" class="w-full neo-btn py-2.5 bg-rose-500 text-white font-jua rounded-xl text-sm shadow">
+        고마워 숙찌야! 💖
+      </button>
+    </div>
+  </div>
+
+  <script>
+    /* LOCAL STATE MANAGEMENT */
+    let apiKey = localStorage.getItem('sukzzi_gemini_key') || '';
+    let seedCount = parseInt(localStorage.getItem('sukzzi_seed_count') || '0');
+    let homeworks = JSON.parse(localStorage.getItem('sukzzi_homeworks') || '[]');
+    let todos = JSON.parse(localStorage.getItem('sukzzi_todos') || '[]');
+    let currentImageBase64 = null;
+    let isAmbientPlaying = false;
+    let audioCtx = null;
+
+    /* WEB AUDIO SYNTHESIZER (For Cute Sound FX & Ambient Lofi Beat) */
+    function initAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playSound(type) {
+      try {
+        initAudioContext();
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'pop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(400, now);
+          osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'chime') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+          osc.frequency.setValueAtTime(1046.50, now + 0.24); // C6
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+          osc.start(now);
+          osc.stop(now + 0.4);
+        }
+      } catch (e) {
+        // Audio fallback silence
+      }
+    }
+
+    /* Ambient Audio Synthetic Generator */
+    let ambientNode = null;
+    function toggleAmbientSound() {
+      initAudioContext();
+      const label = document.getElementById('ambientLabel');
+
+      if (isAmbientPlaying) {
+        if (ambientNode) ambientNode.stop();
+        isAmbientPlaying = false;
+        label.innerText = 'Lofi 소리';
+      } else {
+        try {
+          const bufferSize = audioCtx.sampleRate * 2;
+          const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+          }
+
+          const whiteNoise = audioCtx.createBufferSource();
+          whiteNoise.buffer = noiseBuffer;
+          whiteNoise.loop = true;
+
+          const filter = audioCtx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(400, audioCtx.currentTime);
+
+          const gain = audioCtx.createGain();
+          gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+
+          whiteNoise.connect(filter);
+          filter.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          whiteNoise.start();
+          ambientNode = whiteNoise;
+          isAmbientPlaying = true;
+          label.innerText = '소리 끄기 🎧';
+        } catch(e) {
+          alert('오디오를 재생할 수 없습니다.');
+        }
+      }
+    }
+
+    /* INITIALIZATION ON LOAD */
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      updateSeedDisplay();
+      renderHomeworks();
+      renderTodos();
+      if(apiKey) document.getElementById('apiKeyInput').value = apiKey;
+    });
+
+    function updateSeedDisplay() {
+      document.getElementById('seedCounter').innerText = seedCount;
+      localStorage.setItem('sukzzi_seed_count', seedCount);
+    }
+
+    /* MASCOT "SUKZZI" INTERACTION */
+    function feedSukzzi() {
+      playSound('pop');
+      seedCount += 1;
+      updateSeedDisplay();
+
+      const box = document.getElementById('sukzziAvatarBox');
+      const heart = document.getElementById('feedHeart');
+      
+      box.classList.add('animate-jiggle');
+      heart.classList.remove('opacity-0');
+
+      confetti({ particleCount: 15, spread: 40, origin: { y: 0.3 } });
+
+      setTimeout(() => {
+        box.classList.remove('animate-jiggle');
+        heart.classList.add('opacity-0');
+      }, 500);
+
+      const quotes = [
+        "오예! 오독오독 씨앗 최고다찌! 🌻",
+        "해바라기씨 힘으로 숙제 파괴력 +10 상승!",
+        "씨앗 줬으니까 딱 1페이지는 꼭 풀어라찌!",
+        "볼따구가 빵빵해지니까 행복해... 너도 숙제 끝내고 행복해져라!"
+      ];
+      document.getElementById('sukzziSpeech').innerText = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
+    }
+
+    function triggerMascotAction(type) {
+      const speech = document.getElementById('sukzziSpeech');
+      const status = document.getElementById('sukzziStatus');
+
+      if (type === 'seed') {
+        feedSukzzi();
+      } else if (type === 'fact') {
+        const facts = [
+          "지금 숙제 미루고 계단 구르면 안 아플까 생각했찌? 어차피 숙제는 남는다찌!",
+          "선생님도 숙제 검사하기 귀찮아하셔. 그러니까 대충이라도 일단 써서 제출해!",
+          "시작이 반이면, 생각만 하고 누워있는 건 시작이 아니다찌 🥊"
+        ];
+        speech.innerText = `"${facts[Math.floor(Math.random() * facts.length)]}"`;
+        status.innerText = "상태: 매콤한 팩폭 날리는 중 🔥";
+      } else if (type === 'cheer') {
+        const cheers = [
+          "너 오늘 존재만으로도 100점짜리 인재야! 숙제 조금 못해도 괜찮아 💖",
+          "세상에서 가장 귀여운 네가 고생이 많찌... 힘내자 햄버거 사줄게!",
+          "지쳐도 괜찮아, 잠시 쉬었다가 1 문제만 더 풀면 돼 🧸"
+        ];
+        speech.innerText = `"${cheers[Math.floor(Math.random() * cheers.length)]}"`;
+        status.innerText = "상태: 무조건 우쭈쭈 모드 🧸";
+      }
+    }
+
+    /* TAB SYSTEM */
+    function switchTab(tabName) {
+      ['care', 'planner', 'timer'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        const content = document.getElementById(`content-${t}`);
+        if (t === tabName) {
+          btn.className = "flex-1 py-3 px-3 rounded-xl font-jua text-sm md:text-base transition-all flex items-center justify-center space-x-2 text-rose-600 bg-white dark:bg-slate-800 dark:text-rose-400 shadow-md";
+          content.classList.remove('hidden');
+        } else {
+          btn.className = "flex-1 py-3 px-3 rounded-xl font-jua text-sm md:text-base transition-all flex items-center justify-center space-x-2 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white";
+          content.classList.add('hidden');
+        }
+      });
+    }
+
+    /* STRESS SLIDER */
+    function updateStressDisplay(val) {
+      document.getElementById('stressValue').innerText = val;
+      const emoji = document.getElementById('stressEmoji');
+      const desc = document.getElementById('stressDesc');
+
+      if (val < 30) {
+        emoji.innerText = "😊";
+        desc.innerText = '"여유 넘침! 껌 씹으면서 숙제 10분컷 가능."';
+      } else if (val < 70) {
+        emoji.innerText = "🤯";
+        desc.innerText = '"뇌용량 과부하 직전! 숙찌에게 한탄할 준비 완료."';
+      } else {
+        emoji.innerText = "🌋";
+        desc.innerText = '"위험!! 교가 부르면서 울기 직전 상태입니다. 긴급 피신!"';
+      }
+    }
+
+    /* AI CHATBOT ENGINE */
+    function sendQuickPrompt(promptText) {
+      document.getElementById('userInput').value = promptText;
+      handleChatSubmit(new Event('submit'));
+    }
+
+    async function handleChatSubmit(e) {
+      e.preventDefault();
+      const inputEl = document.getElementById('userInput');
+      const userText = inputEl.value.trim();
+      if (!userText) return;
+
+      playSound('pop');
+      appendChatMessage('user', userText);
+      inputEl.value = '';
+
+      const loadingId = appendChatMessage('sukzzi', '숙찌가 씨앗 오독오독 씹으며 생각 중... 🌻');
+
+      try {
+        let reply = '';
+        if (apiKey) {
+          reply = await fetchGeminiChatResponse(userText);
+        } else {
+          await new Promise(r => setTimeout(r, 600));
+          reply = generateSmartFallbackReply(userText);
+        }
+        updateChatMessage(loadingId, reply);
+      } catch (err) {
+        updateChatMessage(loadingId, '통신 중 오류가 났찌! 하지만 난 널 응원해 💖');
+      }
+    }
+
+    function appendChatMessage(sender, text) {
+      const chatHistory = document.getElementById('chatHistory');
+      const msgId = 'msg-' + Date.now();
+      const isUser = sender === 'user';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = `flex items-start space-x-2.5 ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`;
+      wrapper.id = msgId;
+
+      const avatar = isUser ? '😎' : '🐹';
+      const bgClass = isUser 
+        ? 'bg-rose-500 text-white rounded-tr-none' 
+        : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-100 dark:border-slate-700';
+
+      wrapper.innerHTML = `
+        <div class="w-9 h-9 rounded-2xl ${isUser ? 'bg-rose-200' : 'bg-amber-200 dark:bg-amber-900'} flex items-center justify-center text-lg flex-shrink-0 shadow-sm">
+          ${avatar}
+        </div>
+        <div class="${bgClass} rounded-2xl p-3.5 max-w-[85%] shadow-sm text-sm font-gowun space-y-1">
+          ${!isUser ? '<p class="font-bold font-jua text-rose-500 text-xs">상담사 숙찌</p>' : ''}
+          <p class="msg-content whitespace-pre-line">${escapeHtml(text)}</p>
+        </div>
+      `;
+
+      chatHistory.appendChild(wrapper);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+      return msgId;
+    }
+
+    function updateChatMessage(msgId, newText) {
+      const msgEl = document.getElementById(msgId);
+      if (msgEl) {
+        const contentEl = msgEl.querySelector('.msg-content');
+        if (contentEl) contentEl.innerText = newText;
+      }
+    }
+
+    async function fetchGeminiChatResponse(userPrompt) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+      const systemInstruction = `당신은 힙하고 귀여운 햄스터 숙제 상담사 '숙찌'입니다. 
+      - 말투: ~했찌, ~했냐구, ~해라찌, 🐹 어투 사용.
+      - 성격: 츤데레 같지만 공감 능력 만렙, 위트 넘치고 뼈때리는 유머 감각.
+      - 핵심: 학생의 학업 스트레스를 덜어주고, 따뜻하지만 웃기게 위로해 줄 것.`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: userPrompt }] }],
+          systemInstruction: { parts: [{ text: systemInstruction }] }
+        })
+      });
+
+      const data = await response.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "해바라기씨 까먹느라 못 들었찌! 다시 말해줘 🐹";
+    }
+
+    function generateSmartFallbackReply(prompt) {
+      if (prompt.includes('현기증') || prompt.includes('많음')) {
+        return "현기증 날 땐 5분만 누워서 멍때리는 게 국룰이다찌! 그 다음에 딱 1문제만 풀자 🐹!";
+      } else if (prompt.includes('찢') || prompt.includes('버릴까')) {
+        return "숙제 찢으면 다시 프린트해오라는 선생님의 분노 테크노 댄스를 보게 될 거다찌! 차라리 3분 쪼개기 실행해 ✂️";
+      } else if (prompt.includes('지구') || prompt.includes('멸망')) {
+        return "지구가 멸망하면 숙제 안 해도 되긴 한데... 오늘 안 멸망할 것 같다찌! 일단 씨앗 먹고 5분만 몰입해보자 ☄️";
+      } else {
+        const fallbacks = [
+          "우쭈쭈 속상했찌? 숙찌 볼따구에 숨겨둔 해바라기씨 기운 나누어줄 테니 조금만 힘내라찌! 🌻",
+          "원래 고수는 시작하기 전에 한탄을 길게 하는 법이다찌! 이제 마음껏 한탄했으니 1장 가보자 🚀",
+          "너 지금 고민하는 시간에 2문제는 풀었찌! 찌가 옆에서 응원할 테니 파이팅이야 💖"
+        ];
+        return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+      }
+    }
+
+    function clearChat() {
+      const history = document.getElementById('chatHistory');
+      history.innerHTML = `
+        <div class="flex items-start space-x-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-amber-200 dark:bg-amber-900 flex items-center justify-center text-lg flex-shrink-0 shadow-sm">🐹</div>
+          <div class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-2xl rounded-tl-none p-3.5 max-w-[85%] shadow-sm border border-slate-100 dark:border-slate-700 text-sm font-gowun space-y-1">
+            <p class="font-bold font-jua text-rose-500 text-xs">상담사 숙찌</p>
+            <p>대화창을 말끔하게 비웠어! 새 멘탈로 털어놔 봐 🧹✨</p>
+          </div>
+        </div>
+      `;
+    }
+
+    /* HOMEWORK CHUNKER PLANNER */
+    function previewImage(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentImageBase64 = e.target.result;
+          document.getElementById('imagePreview').src = currentImageBase64;
+          document.getElementById('imagePreviewContainer').classList.remove('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function removeImage() {
+      currentImageBase64 = null;
+      document.getElementById('hwImage').value = '';
+      document.getElementById('imagePreviewContainer').classList.add('hidden');
+    }
+
+    function handleAddHomework(e) {
+      e.preventDefault();
+      const title = document.getElementById('hwTitle').value.trim();
+      const dueDate = document.getElementById('hwDueDate').value;
+      const amount = parseInt(document.getElementById('hwAmount').value) || 1;
+      const difficulty = document.getElementById('hwDifficulty').value;
+
+      let chunkSize = 4;
+      if (difficulty === 'easy') chunkSize = Math.max(5, Math.ceil(amount / 2));
+      else if (difficulty === 'medium') chunkSize = Math.max(3, Math.ceil(amount / 3));
+      else if (difficulty === 'hard') chunkSize = Math.max(2, Math.ceil(amount / 4));
+      else chunkSize = 1;
+
+      const totalChunks = Math.ceil(amount / chunkSize);
+      const chunks = [];
+      for (let i = 0; i < totalChunks; i++) {
+        const start = i * chunkSize + 1;
+        const end = Math.min((i + 1) * chunkSize, amount);
+        chunks.push({
+          id: Date.now() + i,
+          label: `${title} (${start}~${end}번/p)`,
+        });
+      }
+
+      const newHw = {
+        id: Date.now(),
+        title,
+        dueDate,
+        amount,
+        difficulty,
+        chunks,
+        image: currentImageBase64
+      };
+
+      homeworks.unshift(newHw);
+      saveHomeworks();
+      renderHomeworks();
+
+      e.target.reset();
+      removeImage();
+      playSound('chime');
+      confetti({ particleCount: 30, spread: 60 });
+    }
+
+    function renderHomeworks() {
+      const container = document.getElementById('homeworkList');
+      document.getElementById('hwCountBadge').innerText = `${homeworks.length}개`;
+
+      if (homeworks.length === 0) {
+        container.innerHTML = `
+          <div class="glass-card rounded-3xl p-8 text-center space-y-3 border border-white/70 dark:border-slate-800">
+            <span class="text-5xl inline-block animate-bounce">🧹</span>
+            <p class="font-jua text-lg text-slate-600 dark:text-slate-300">등록된 숙제가 없찌!</p>
+            <p class="text-xs font-gowun text-slate-400">숙제를 입력하면 숙찌가 오독오독 먹기 편하게 과자 조각처럼 쪼개줍니다.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = homeworks.map(hw => {
+        const diffBadge = {
+          easy: '🟢 순한맛',
+          medium: '🟡 보통맛',
+          hard: '🔴 매운맛',
+          hell: '☠️ 지구멸망맛'
+        }[hw.difficulty] || '🟡 보통맛';
+
+        return `
+          <div class="glass-card rounded-3xl p-4 md:p-5 shadow-md border border-white/70 dark:border-slate-800 space-y-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="font-jua text-base md:text-lg text-slate-800 dark:text-white">${escapeHtml(hw.title)}</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-sans">${diffBadge}</span>
+                </div>
+                <p class="text-xs font-gowun text-rose-500 font-semibold mt-0.5">📅 마감: ${hw.dueDate} 까지 (${hw.amount} 분량)</p>
+              </div>
+              <button onclick="deleteHomework(${hw.id}); playSound('pop');" class="text-slate-400 hover:text-rose-500 transition-colors p-1">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            ${hw.image ? `<img src="${hw.image}" class="w-full h-28 object-cover rounded-xl border border-slate-200 dark:border-slate-700">` : ''}
+
+            <div class="space-y-1.5 pt-1">
+              <p class="text-xs font-bold text-slate-500 flex items-center justify-between">
+                <span>✂ 숙찌의 과자 조각 쪼개기:</span>
+                <span class="text-[11px] font-normal text-slate-400 font-sans">총 ${hw.chunks.length}조각</span>
+              </p>
+              <div class="grid grid-cols-1 gap-1.5">
+                ${hw.chunks.map(chunk => `
+                  <div class="flex items-center justify-between bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 text-xs">
+                    <span class="font-gowun text-slate-700 dark:text-slate-300">${escapeHtml(chunk.label)}</span>
+                    <button onclick="sendChunkToTodo('${escapeHtml(chunk.label)}')" 
+                            class="neo-btn text-[11px] font-jua px-2.5 py-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 rounded-lg flex items-center space-x-1">
+                      <span>오늘 분량으로 송금 💸</span>
+                    </button>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function deleteHomework(id) {
+      homeworks = homeworks.filter(h => h.id !== id);
+      saveHomeworks();
+      renderHomeworks();
+    }
+
+    function saveHomeworks() {
+      localStorage.setItem('sukzzi_homeworks', JSON.stringify(homeworks));
+    }
+
+    function sendChunkToTodo(label) {
+      playSound('chime');
+      todos.push({
+        id: Date.now(),
+        text: label,
+        completed: false
+      });
+      saveTodos();
+      renderTodos();
+      confetti({ particleCount: 25, spread: 50 });
+      switchTab('timer');
+    }
+
+    /* POMODORO TIMER ENGINE */
+    let timerState = {
+      timeLeft: 25 * 60,
+      totalTime: 25 * 60,
+      isRunning: false,
+      mode: 'study',
+      interval: null
+    };
+
+    function toggleTimer() {
+      if (timerState.isRunning) {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    }
+
+    function startTimer() {
+      timerState.isRunning = true;
+      document.getElementById('timerStartText').innerText = "일시정지";
+      
+      timerState.interval = setInterval(() => {
+        if (timerState.timeLeft > 0) {
+          timerState.timeLeft--;
+          updateTimerDisplay();
+        } else {
+          pauseTimer();
+          playSound('chime');
+          confetti({ particleCount: 50, spread: 80 });
+          alert(timerState.mode === 'study' ? "🎉 25분 몰입 완료! 5분간 햄스터처럼 누워계세요!" : "🔔 휴식 끝! 다시 갓생 모드 가동!");
+          switchTimerMode();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      timerState.isRunning = false;
+      clearInterval(timerState.interval);
+      document.getElementById('timerStartText').innerText = "시작하기";
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      timerState.timeLeft = timerState.mode === 'study' ? 25 * 60 : 5 * 60;
+      updateTimerDisplay();
+    }
+
+    function switchTimerMode() {
+      pauseTimer();
+      if (timerState.mode === 'study') {
+        timerState.mode = 'rest';
+        timerState.totalTime = 5 * 60;
+        timerState.timeLeft = 5 * 60;
+        document.getElementById('timerModeText').innerText = "☕ 5분 꿀같은 휴식 타임";
+      } else {
+        timerState.mode = 'study';
+        timerState.totalTime = 25 * 60;
+        timerState.timeLeft = 25 * 60;
+        document.getElementById('timerModeText').innerText = "🔥 25분 집중 몰입 모드";
+      }
+      updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timerState.timeLeft / 60);
+      const seconds = timerState.timeLeft % 60;
+      document.getElementById('timeDisplay').innerText = 
+        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+      const circumference = 263.89;
+      const progress = timerState.timeLeft / timerState.totalTime;
+      const offset = circumference - (progress * circumference);
+      document.getElementById('timerProgressRing').style.strokeDashoffset = offset;
+    }
+
+    /* TODOS ENGINE */
+    function handleAddTodo(e) {
+      e.preventDefault();
+      const input = document.getElementById('todoInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      todos.push({
+        id: Date.now(),
+        text,
+        completed: false
+      });
+
+      input.value = '';
+      saveTodos();
+      renderTodos();
+    }
+
+    function toggleTodo(id) {
+      todos = todos.map(t => {
+        if (t.id === id) {
+          const nextState = !t.completed;
+          if (nextState) {
+            playSound('chime');
+            confetti({ particleCount: 30, spread: 60 });
+          }
+          return { ...t, completed: nextState };
+        }
+        return t;
+      });
+      saveTodos();
+      renderTodos();
+    }
+
+    function deleteTodo(id) {
+      todos = todos.filter(t => t.id !== id);
+      saveTodos();
+      renderTodos();
+    }
+
+    function renderTodos() {
+      const container = document.getElementById('todoList');
+      const completed = todos.filter(t => t.completed).length;
+      document.getElementById('completedCount').innerText = `${completed} / ${todos.length} 완료`;
+
+      if (todos.length === 0) {
+        container.innerHTML = `<p class="text-xs text-center font-gowun text-slate-400 py-4">오늘의 퀘스트가 없습니다. 숙제에서 송금해보세요!</p>`;
+        return;
+      }
+
+      container.innerHTML = todos.map(t => `
+        <div class="flex items-center justify-between p-2.5 rounded-2xl ${t.completed ? 'bg-slate-100/60 dark:bg-slate-800/40 opacity-60' : 'bg-white dark:bg-slate-900'} border border-slate-200/60 dark:border-slate-800 text-xs transition-all">
+          <label class="flex items-center space-x-2.5 cursor-pointer flex-1">
+            <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTodo(${t.id})"
+                   class="w-4 h-4 text-rose-500 rounded border-slate-300 focus:ring-rose-400 accent-rose-500">
+            <span class="font-gowun ${t.completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-200'}">${escapeHtml(t.text)}</span>
+          </label>
+          <button onclick="deleteTodo(${t.id}); playSound('pop');" class="text-slate-300 hover:text-rose-500 p-1">
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function saveTodos() {
+      localStorage.setItem('sukzzi_todos', JSON.stringify(todos));
+    }
+
+    /* COMPLIMENT VENDING MACHINE */
+    const compliments = [
+      "오늘 숙제 펼친 것만으로도 전국 상위 1% 인재 인정 🥇",
+      "숙찌가 보증함: 넌 나중에 세상을 놀라게 할 갓생러임! 🌟",
+      "숙제 미루고 싶은 욕구를 이겨내는 네 모습 진짜 멋져 🦸‍♀️",
+      "잠시 쉬어가도 괜찮아, 넌 존재 자체로 100점이니까! 💖",
+      "세계 최고 귀여움과 지성을 겸비한 천재 학생 등판 ✨"
+    ];
+
+    function dispenseCompliment() {
+      playSound('chime');
+      const comp = compliments[Math.floor(Math.random() * compliments.length)];
+      document.getElementById('complimentText').innerText = `"${comp}"`;
+      document.getElementById('complimentModal').classList.remove('hidden');
+      confetti({ particleCount: 40, spread: 70 });
+    }
+
+    function closeComplimentModal() {
+      document.getElementById('complimentModal').classList.add('hidden');
+    }
+
+    /* MODAL UTILITIES */
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function openApiModal() {
+      document.getElementById('apiModal').classList.remove('hidden');
+    }
+
+    function closeApiModal() {
+      document.getElementById('apiModal').classList.add('hidden');
+    }
+
+    function saveApiKey() {
+      const val = document.getElementById('apiKeyInput').value.trim();
+      apiKey = val;
+      localStorage.setItem('sukzzi_gemini_key', apiKey);
+      closeApiModal();
+      alert(apiKey ? 'Gemini API Key 연동 완료! 🐹' : 'API Key가 삭제되어 스마트 로컬 엔진으로 전환됩니다.');
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
